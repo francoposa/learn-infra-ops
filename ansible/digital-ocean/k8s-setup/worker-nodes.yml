@@ -1,3 +1,4 @@
+---
 - hosts: master
   become: yes
   gather_facts: false
@@ -9,7 +10,6 @@
     - name: set join command
       set_fact:
         join_command: "{{ join_command_raw.stdout_lines[0] }}"
-
 
 - hosts: workers
   become: yes

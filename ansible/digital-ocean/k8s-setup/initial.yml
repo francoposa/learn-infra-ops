@@ -1,3 +1,4 @@
+---
 - hosts: all
   become: yes
   tasks:
@@ -7,8 +8,8 @@
     - name: allow 'ubuntu' to have passwordless sudo
       lineinfile:
         dest: /etc/sudoers
-        line: 'ubuntu ALL=(ALL) NOPASSWD: ALL'
-        validate: 'visudo -cf %s'
+        line: "ubuntu ALL=(ALL) NOPASSWD: ALL"
+        validate: "visudo -cf %s"
 
     - name: set up authorized keys for the ubuntu user
       authorized_key: user=ubuntu key="{{item}}"
