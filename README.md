@@ -45,3 +45,16 @@ In directory `./ansible/digital-ocean`:
 % ansible-playbook -i hosts ./k8s-setup/master-node.yml
 % ansible-playbook -i hosts ./k8s-setup/worker-nodes.yml
 ```
+
+#### Control the Cluster from a Local Machine
+
+Copy kubernetes administrator kubeconfig from the remote control plane host to your local:
+
+```
+% scp root@<control-plane-host>:/etc/kubernetes/admin.conf ~/.kube/config
+```
+
+Check the status of the cluster from your local:
+```
+% kubectl get nodes
+```
