@@ -4,4 +4,4 @@
   become_user: ubuntu
   tasks:
     - name: remove master:NoSchedule node taint from master host
-      shell: kubectl taint nodes ubuntu-franco-nyc1-01 node-role.kubernetes.io/master:NoSchedule-
+      shell: kubectl taint nodes franco-ubuntu-nyc1-01 node-role.kubernetes.io/master:NoSchedule-

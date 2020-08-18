@@ -8,6 +8,12 @@
         state: present
         update_cache: true
 
+    - name: start Docker service
+      shell: systemctl enable docker.service
+      args:
+        chdir: $HOME
+        creates: docker_service_started.txt
+
     - name: install APT Transport HTTPS
       apt:
         name: apt-transport-https

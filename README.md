@@ -58,3 +58,14 @@ Check the status of the cluster from your local:
 ```
 % kubectl get nodes
 ```
+
+https://github.com/containous/traefik-helm-chart
+https://docs.traefik.io/getting-started/install-traefik/
+
+helm repo add traefik https://containous.github.io/traefik-helm-chart
+
+helm install traefik traefik/traefik --namespace kube-system   
+
+kubectl -n kube-system port-forward $(kubectl -n kube-system get pods --selector "app.kubernetes.io/name=traefik" --output=name) 9000:9000
+
+in order to install postgres: need to create persistent volumes
