@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-storage
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 8Gi
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: "157.230.229.232"
+    path: "/mnt/volume_nyc1_01/k8s"
+    readOnly: false

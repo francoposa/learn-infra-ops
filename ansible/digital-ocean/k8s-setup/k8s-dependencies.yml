@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: masters:workers
   become: yes
   tasks:
     - name: install Docker
@@ -7,6 +7,12 @@
         name: docker.io
         state: present
         update_cache: true
+    
+    - name: copy docker daemon.json to host
+      copy:
+        src: ./docker-daemon.json
+        dest: /etc/docker/daemon.json
+        owner: ubuntu
 
     - name: start Docker service
       shell: systemctl enable docker.service
@@ -32,13 +38,13 @@
 
     - name: install kubelet
       apt:
-        name: kubelet=1.18.4-00
+        name: kubelet=1.19.3-00
         state: present
         update_cache: true
 
     - name: install kubeadm
       apt:
-        name: kubeadm=1.18.4-00
+        name: kubeadm=1.19.3-00
         state: present
 
 - hosts: master
@@ -46,6 +52,6 @@
   tasks:
     - name: install kubectl
       apt:
-        name: kubectl=1.18.4-00
+        name: kubectl=1.19.3-00
         state: present
         force: yes
