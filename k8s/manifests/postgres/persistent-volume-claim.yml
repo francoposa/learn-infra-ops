@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-manual
+  name: postgres-nfs-volume-claim
 spec:
-  storageClassName: manual
+  # storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
