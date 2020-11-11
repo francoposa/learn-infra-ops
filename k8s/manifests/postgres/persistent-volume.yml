@@ -5,7 +5,7 @@ metadata:
   labels:
     app: postgres
 spec:
-  # storageClassName: manual
+  storageClassName: nfs-manual
   accessModes:
     - ReadWriteMany
   capacity:
