@@ -3,7 +3,7 @@
   become: yes
   tasks:
     - name: create the 'ubuntu' user
-      user: name=ubuntu append=yes state=present createhome=yes shell=/bin/bash
+      user: name=ubuntu append=yes groups=sudo state=present createhome=yes shell=/bin/bash
 
     - name: allow 'ubuntu' to have passwordless sudo
       lineinfile:

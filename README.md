@@ -51,7 +51,7 @@ In directory `./ansible/digital-ocean`:
 Copy kubernetes administrator kubeconfig from the remote control plane host to your local:
 
 ```
-% scp ubuntu@<control-plane-host>:home/ubuntu/.kube/config ~/.kube/config
+% scp ubuntu@<control-plane-host>:/home/ubuntu/.kube/config ~/.kube/config
 ```
 
 Check the status of the cluster from your local:

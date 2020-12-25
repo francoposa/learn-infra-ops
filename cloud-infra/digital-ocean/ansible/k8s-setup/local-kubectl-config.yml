@@ -1,0 +1,8 @@
+---
+- hosts: master
+  tasks:
+    - name: copy master kube config to local
+      fetch:
+        src: /home/ubuntu/.kube/config
+        dest: ~/.kube/
+        flat: yes
