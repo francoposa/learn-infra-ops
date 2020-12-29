@@ -6,3 +6,9 @@
         src: /home/ubuntu/.kube/config
         dest: ~/.kube/
         flat: yes
+- hosts: localhost
+  tasks: 
+    - name: chmod kube config to only be readable by become_user
+      shell: chmod g-r ./.kube/config
+      args:
+        chdir: $HOME
