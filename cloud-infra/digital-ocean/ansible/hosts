@@ -1,5 +1,5 @@
 [masters]
-master ansible_host=157.245.86.150 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa_dgo
+master ansible_host=134.209.131.252 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa_dgo
 
 [workers]
 
