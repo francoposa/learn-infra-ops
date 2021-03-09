@@ -1,0 +1,14 @@
+---
+- hosts: master
+  vars:
+    ansible_user: ubuntu
+  become: yes
+  tasks:
+    - name: install k3s
+      shell: |
+        curl -sfL https://get.k3s.io | sh -s - \
+          --write-kubeconfig-mode 644 \
+          --tls-san {{ hostvars[inventory_hostname].ansible_host }} 
+      args:
+        chdir: $HOME
+        creates: k3s_installed.txt
