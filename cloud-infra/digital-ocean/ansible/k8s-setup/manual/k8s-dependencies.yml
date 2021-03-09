@@ -1,5 +1,7 @@
 ---
 - hosts: masters:workers
+  vars:
+    ansible_user: ubuntu
   become: yes
   tasks:
     - name: install Docker
@@ -50,6 +52,8 @@
 
 - hosts: master
   become: yes
+  vars:
+    ansible_user: ubuntu
   tasks:
     - name: install kubectl
       apt:

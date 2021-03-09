@@ -1,6 +1,8 @@
 ---
 - hosts: master
   become: yes
+  vars:
+    ansible_user: ubuntu
   tasks:
     - name: initialize the cluster with Calico network IPs
       shell: kubeadm init --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=NumCPU,Mem >> cluster_initialized.txt
