@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: create the 'debian' user
+      user: name=debian append=yes groups=sudo state=present createhome=yes shell=/bin/bash
+
+    - name: allow 'debian' to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        line: "debian ALL=(ALL) NOPASSWD: ALL"
+        validate: "visudo -cf %s"
+
+    - name: set up authorized keys for the debian user
+      authorized_key: user=debian key="{{item}}"
+      with_file:
+        - ~/.ssh/id_rsa_dgo.pub
+
+- hosts: all
+  vars:
+    ansible_user: debian
+  become: yes
+  tasks:
+    - name: install curl
+      apt:
+        name: curl
+        state: present
+        update_cache: true
+

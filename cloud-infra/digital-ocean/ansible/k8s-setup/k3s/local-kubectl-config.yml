@@ -1,7 +1,7 @@
 ---
 - hosts: master
   become: yes
-  become_user: ubuntu
+  become_user: debian
   tasks:
     - name: copy master kube config to local
       fetch:
