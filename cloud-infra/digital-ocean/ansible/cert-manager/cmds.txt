@@ -1,0 +1,41 @@
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.2.0 --create-namespace --set installCRDs=true
+
+YOUR_MAIL_ADDRESS=franco@francoposa.io
+cat << EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: ${YOUR_MAIL_ADDRESS}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource used to store the account's private key.
+      name: letsencrypt-issuer-account-key
+    solvers:
+    - http01:
+        ingress:
+          class: traefik
+EOF
+
+DOMAIN=francoposa.co
+
+cat << EOF | kubectl apply -f -
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: ${DOMAIN}-cert
+spec:
+  commonName: ${DOMAIN}
+  dnsNames:
+    - ${DOMAIN}
+  secretName: ${DOMAIN}-cert
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+EOF
