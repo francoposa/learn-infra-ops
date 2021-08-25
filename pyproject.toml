@@ -1,7 +1,7 @@
 [tool.poetry]
 authors = ["francojposa <franco@francoposa.io>"]
 description = ""
-name = "learn-ci-cd"
+name = "learn-devops"
 version = "0.1.0a0"
 
 [tool.poetry.dependencies]
