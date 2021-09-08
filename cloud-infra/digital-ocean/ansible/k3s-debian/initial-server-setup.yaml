@@ -1,29 +1,50 @@
+# References
+
+# Digital Ocean recommended droplet setup script: https://docs.digitalocean.com/droplets/tutorials/recommended-setup
+# Digital Ocean tutorial on installing kubernetes with Ansible: https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-debian-9
+# Ansible Galaxy (Community) recipe for securing ssh: https://github.com/vitalk/ansible-secure-ssh
+
 ---
 - hosts: all
-  become: yes
+  become: 'yes'
   tasks:
-    - name: create the 'debian' user
-      user: name=debian append=yes groups=sudo state=present createhome=yes shell=/bin/bash
+    - name: create the 'infraops' user
+      user:
+        state: present
+        name: infraops
+        password_lock: 'yes'
+        groups: sudo
+        append: 'yes'
+        createhome: 'yes'
+        shell: /bin/bash
 
-    - name: allow 'debian' to have passwordless sudo
-      lineinfile:
-        dest: /etc/sudoers
-        line: "debian ALL=(ALL) NOPASSWD: ALL"
-        validate: "visudo -cf %s"
-
-    - name: set up authorized keys for the debian user
-      authorized_key: user=debian key="{{item}}"
+    - name: add authorized keys for the infraops user
+      authorized_key: 'user=infraops key="{{item}}"'
       with_file:
         - ~/.ssh/id_rsa_dgo.pub
 
-- hosts: all
-  vars:
-    ansible_user: debian
-  become: yes
-  tasks:
-    - name: install curl
-      apt:
-        name: curl
-        state: present
-        update_cache: true
+    - name: allow infraops user to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'infraops ALL=(ALL) NOPASSWD: ALL'
+        validate: visudo -cf %s
 
+    - name: disable empty password login for all users
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^#?PermitEmptyPasswords'
+        line: PermitEmptyPasswords no
+      notify: restart sshd
+
+    - name: disable password login for all users
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^(#\s*)?PasswordAuthentication '
+        line: PasswordAuthentication no
+      notify: restart sshd
+
+  handlers:
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted
