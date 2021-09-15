@@ -1,5 +1,5 @@
 [tool.poetry]
-authors = ["francojposa <franco@francoposa.io>"]
+authors = ["francoposa <franco@francoposa.io>"]
 description = ""
 name = "learn-devops"
 version = "0.1.0a0"
