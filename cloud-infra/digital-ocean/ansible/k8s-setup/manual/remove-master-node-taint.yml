@@ -1,7 +1,0 @@
----
-- hosts: master
-  become: yes
-  become_user: ubuntu
-  tasks:
-    - name: remove master:NoSchedule node taint from master host
-      shell: kubectl taint nodes franco-01-sfo3-01 node-role.kubernetes.io/master:NoSchedule-

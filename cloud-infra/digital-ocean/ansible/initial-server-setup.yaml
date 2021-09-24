@@ -5,7 +5,7 @@
 # Ansible Galaxy (Community) recipe for securing ssh: https://github.com/vitalk/ansible-secure-ssh
 
 ---
-- hosts: all
+- hosts: master_roots
   become: 'yes'
   tasks:
     - name: create the 'infraops' user
@@ -41,6 +41,13 @@
         dest: /etc/ssh/sshd_config
         regexp: '^(#\s*)?PasswordAuthentication '
         line: PasswordAuthentication no
+      notify: restart sshd
+
+    - name: Disable remote root login
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin no'
       notify: restart sshd
 
   handlers:
