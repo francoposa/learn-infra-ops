@@ -1,9 +1,11 @@
 # References
 
-# Digital Ocean recommended droplet setup script: https://docs.digitalocean.com/droplets/tutorials/recommended-setup
-# Digital Ocean tutorial on installing kubernetes with Ansible: https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-debian-9
-# Ansible Galaxy (Community) recipe for securing ssh: https://github.com/vitalk/ansible-secure-ssh
-
+# Digital Ocean recommended droplet setup script:
+# - https://docs.digitalocean.com/droplets/tutorials/recommended-setup
+# Digital Ocean tutorial on installing kubernetes with Ansible:
+#  - https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-debian-9
+# Ansible Galaxy (Community) recipe for securing ssh:
+# - https://github.com/vitalk/ansible-secure-ssh
 ---
 - hosts: master_roots
   become: 'yes'
@@ -21,7 +23,7 @@
     - name: add authorized keys for the infraops user
       authorized_key: 'user=infraops key="{{item}}"'
       with_file:
-        - ~/.ssh/id_rsa_dgo.pub
+        '{{ hostvars[inventory_hostname].ansible_ssh_private_key_file }}.pub'
 
     - name: allow infraops user to have passwordless sudo
       lineinfile:
@@ -43,7 +45,7 @@
         line: PasswordAuthentication no
       notify: restart sshd
 
-    - name: Disable remote root login
+    - name: Disable remote root user login
       lineinfile:
         dest: /etc/ssh/sshd_config
         regexp: '^#?PermitRootLogin'
