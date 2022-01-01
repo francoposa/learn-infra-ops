@@ -1,3 +1,16 @@
+# This host setup playbook uses the root user to create a new user, add some SSH config,
+# and then disables SSH access for the root user.
+# Handling this in Ansible is somewhat of a pain, because you run with one user for the
+# initial playbook, then you never use the user again, and can't re-run the playbook
+# without throwing errors.
+
+# For this reason, I have deprecated the use of this script in favor of a bash script
+# to be run before the first server startup.
+# After some research I have found that "init scripts"/"startup scripts"/"user data"
+# scripts are supported across AWS, GCP, and DigitalOcean, potentially via cloud-init
+# (this is what DigitalOcean uses, didn't research the others), which is cross-provider
+# enough for me to just stick with a bash init script solution.
+
 # References
 
 # Digital Ocean recommended droplet setup script:
@@ -10,25 +23,36 @@
 - hosts: master_roots
   become: 'yes'
   tasks:
-    - name: create the 'infraops' user
+    - name: create the 'infra_ops' user on Debian family OS
+      when: ansible_facts['os_family'] == 'Debian'
       user:
         state: present
-        name: infraops
+        name: infra_ops
         password_lock: 'yes'
         groups: sudo
         append: 'yes'
         createhome: 'yes'
         shell: /bin/bash
+    - name: create the 'infra_ops' user on RedHat family OS
+      when: ansible_facts['os_family'] == 'RedHat'
+      user:
+        state: present
+        name: infra_ops
+        password_lock: 'yes'
+        groups: wheel
+        append: 'yes'
+        createhome: 'yes'
+        shell: /bin/bash
 
-    - name: add authorized keys for the infraops user
-      authorized_key: 'user=infraops key="{{item}}"'
+    - name: add authorized keys for the infra_ops user
+      authorized_key: 'user=infra_ops key="{{item}}"'
       with_file:
         '{{ hostvars[inventory_hostname].ansible_ssh_private_key_file }}.pub'
 
-    - name: allow infraops user to have passwordless sudo
+    - name: allow infra_ops user to have passwordless sudo
       lineinfile:
         dest: /etc/sudoers
-        line: 'infraops ALL=(ALL) NOPASSWD: ALL'
+        line: 'infra_ops ALL=(ALL) NOPASSWD: ALL'
         validate: visudo -cf %s
 
     - name: disable empty password login for all users

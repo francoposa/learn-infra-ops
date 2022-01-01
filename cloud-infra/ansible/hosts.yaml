@@ -1,0 +1,9 @@
+---
+all:
+  children:
+    masters:
+      hosts:
+        demo_master:
+          ansible_host: a.b.c.d
+          ansible_user: infra_ops
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa_infra_ops
