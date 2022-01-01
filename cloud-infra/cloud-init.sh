@@ -1,11 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 USERNAME=infra_ops # Customize the sudo non-root username here
 
 # Create user
-useradd --create-home --shell "/bin/bash" --groups sudo "${USERNAME}"
-
+if [ -f "/etc/debian_version" ]; then
+  # Debian-based distros use the `sudo` group
+  useradd --create-home --shell "/bin/bash" --groups sudo "${USERNAME}"
+fi
+if [ -f "/etc/redhat-release" ]; then
+  # RHEL-based distros use the `wheel` group
+  useradd --create-home --shell "/bin/bash" --groups wheel "${USERNAME}"
+fi
 
 # Create SSH directory for sudo user and move keys over
 home_directory="$(eval echo ~${USERNAME})"
@@ -15,6 +21,7 @@ chmod 0700 "${home_directory}/.ssh"
 chmod 0600 "${home_directory}/.ssh/authorized_keys"
 chown --recursive "${USERNAME}":"${USERNAME}" "${home_directory}/.ssh"
 
+# Allow user to have passwordless sudo
 echo "" >> /etc/sudoers
 echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
