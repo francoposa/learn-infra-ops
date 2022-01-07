@@ -1,0 +1,2 @@
+plugin: community.digitalocean.digitalocean
+api_token: "{{ lookup('ansible.builtin.env', 'DO_API_TOKEN') }}"

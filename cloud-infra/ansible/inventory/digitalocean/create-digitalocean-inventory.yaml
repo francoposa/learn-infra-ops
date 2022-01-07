@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  tasks:
+    - name: create a new droplet in project "demo"
+      community.digitalocean.digital_ocean_droplet:
+        state: active
+        name: demo-sfo3-01
+        unique_name: true
+        project: demo
+        image: centos-stream-8-x64
+        size: s-1vcpu-1gb
+        region: sfo3
+        ssh_keys:
+          - "51:fa:98:d5:a9:1b:6e:95:cb:c9:df:24:01:53:aa:48"  # id_rsa_infra_ops
+        user_data: "{{ lookup('ansible.builtin.file', '../../../cloud-init.sh') }}"
+        oauth_token: "{{ lookup('ansible.builtin.env', 'DO_API_TOKEN') }}"
