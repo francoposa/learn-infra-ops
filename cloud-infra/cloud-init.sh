@@ -22,9 +22,7 @@ chmod 0600 "${home_directory}/.ssh/authorized_keys"
 chown --recursive "${USERNAME}":"${USERNAME}" "${home_directory}/.ssh"
 
 # Allow user to have passwordless sudo
-echo "" >> /etc/sudoers
-echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
+printf "\n%s ALL=(ALL) NOPASSWD: ALL" "${USERNAME}" >> /etc/sudoers
 
 # Disable SSH login with empty password for all users
 # Should be obviated by the next step, but still prefer to have both
