@@ -1,5 +1,5 @@
 ---
-- hosts: master
+- hosts: demo
   vars:
     ansible_user: infra_ops
   become: yes
@@ -8,7 +8,7 @@
       shell: |
         curl -sfL https://get.k3s.io | sh -s - \
           --write-kubeconfig-mode 644 \
-          --tls-san {{ hostvars[inventory_hostname].ansible_host }} 
+          --tls-san {{ hostvars[inventory_hostname].ansible_host }}
       args:
         chdir: $HOME
         creates: k3s_installed.txt

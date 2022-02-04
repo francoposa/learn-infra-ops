@@ -4,10 +4,12 @@
     - name: create a new droplet in project "demo"
       community.digitalocean.digital_ocean_droplet:
         state: active
-        name: demo-sfo3-01
+        name: debian-s-1vcpu-1gb-sfo3-01
         unique_name: true
         project: demo
-        image: centos-stream-8-x64
+        tags:
+          - demo
+        image: debian-11-x64
         size: s-1vcpu-1gb
         region: sfo3
         ssh_keys:

@@ -1,0 +1,15 @@
+---
+plugin: community.digitalocean.digitalocean
+api_token: "{{ lookup('ansible.builtin.env', 'DO_API_TOKEN') }}"
+attributes:
+  - name
+  - tags
+  - region
+  - networks
+keyed_groups:
+  - key: do_tags
+    prefix: ""
+    separator: ""
+compose:
+  ansible_host: do_networks.v4 | selectattr('type','eq','public')
+    | map(attribute='ip_address') | first
