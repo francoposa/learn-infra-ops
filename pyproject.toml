@@ -1,7 +1,7 @@
 [tool.poetry]
 authors = ["francoposa <franco@francoposa.io>"]
 description = ""
-name = "learn-devops"
+name = "learn-infra-ops"
 version = "0.1.0a0"
 
 [tool.poetry.dependencies]
@@ -9,7 +9,7 @@ python = "^3.8"
 ansible = "5.*"
 
 [tool.poetry.dev-dependencies]
-yamllint = "^1.*"
+yamllint = "1.*"
 
 [build-system]
 build-backend = "poetry.masonry.api"
