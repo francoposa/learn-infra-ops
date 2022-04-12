@@ -4,7 +4,7 @@
     - name: create a new droplet in project "demo"
       community.digitalocean.digital_ocean_droplet:
         state: active
-        name: debian-s-1vcpu-1gb-sfo3-01-1
+        name: debian-s-1vcpu-1gb-sfo3-01-01
         unique_name: true
         project: demo
         tags:

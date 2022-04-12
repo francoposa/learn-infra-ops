@@ -6,14 +6,23 @@
     - name: copy master kube config to local
       fetch:
         src: /etc/rancher/k3s/k3s.yaml
-        dest: ~/.kube/config
+        dest: ~/.kube/digitalocean-demo-k3s.yaml
         flat: true
     - name: debug host ip
       debug:
         var: hostvars[inventory_hostname].ansible_host
+
+- hosts: localhost
+  tasks:
     - name: replace kube config localhost with master ip
       replace:
-        path: ~/.kube/config
+        path: ~/.kube/digitalocean-demo-k3s.yaml
         regexp: '127\.0\.0\.1'  # ansible only likes single quotes for this regex
         replace: "{{ hostvars[inventory_hostname].ansible_host }}"
-      delegate_to: localhost
+    - name: merge kube configs
+      # https://stackoverflow.com/questions/46184125/how-to-merge-kubectl-config-file-with-kube-config
+      shell: |
+        KUBECONFIG=~/.kube/config:~/.kube/digitalocean-demo-k3s.yaml \
+          kubectl config view --merge --flatten > ~/.kube/config_merged \
+          && mv ~/.kube/config_merged ~/.kube/config \
+          && rm ~/.kube/digitalocean-demo-k3s.yaml
