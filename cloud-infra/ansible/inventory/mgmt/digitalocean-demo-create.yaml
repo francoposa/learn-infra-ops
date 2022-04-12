@@ -4,7 +4,7 @@
     - name: create a new droplet in project "demo"
       community.digitalocean.digital_ocean_droplet:
         state: active
-        name: debian-s-1vcpu-1gb-sfo3-01
+        name: debian-s-1vcpu-1gb-sfo3-01-1
         unique_name: true
         project: demo
         tags:
@@ -13,6 +13,6 @@
         size: s-1vcpu-1gb
         region: sfo3
         ssh_keys:
-          - "51:fa:98:d5:a9:1b:6e:95:cb:c9:df:24:01:53:aa:48"  # id_rsa_infra_ops
+          - "59:01:94:df:80:a9:97:3e:78:00:85:66:05:06:c7:42"  # id_ed25519_infra_ops
         user_data: "{{ lookup('ansible.builtin.file', '../../../cloud-init.sh') }}"
         oauth_token: "{{ lookup('ansible.builtin.env', 'DO_API_TOKEN') }}"
