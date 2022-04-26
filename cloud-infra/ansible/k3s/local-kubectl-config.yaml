@@ -20,6 +20,8 @@
     - name: merge kube configs
       delegate_to: localhost
       # https://stackoverflow.com/questions/46184125/how-to-merge-kubectl-config-file-with-kube-config
+      # the KUBECONFIG order of files matters; if there are two clusters or users with
+      # the same name, the merge will keep the one from the file listed first
       shell: |
         KUBECONFIG=~/.kube/digitalocean-demo-k3s.yaml:~/.kube/config \
           kubectl config view --merge --flatten > ~/.kube/config_merged \
