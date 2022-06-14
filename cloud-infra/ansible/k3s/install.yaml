@@ -9,6 +9,8 @@
         curl -sfL https://get.k3s.io | sh -s - \
           --write-kubeconfig-mode 644 \
           --tls-san {{ hostvars[inventory_hostname].ansible_host }}
-      args:
-        chdir: $HOME
-        creates: k3s_installed.txt
+    - name: replace kube config 'default' values with descriptive name
+      replace:
+        path: /etc/rancher/k3s/k3s.yaml
+        regexp: "default"
+        replace: "k8s-demo-master"
