@@ -1,5 +1,5 @@
 ---
-- hosts: demo
+- hosts: k3s-demo-master
   vars:
     ansible_user: infra_ops
   become: yes
@@ -13,4 +13,4 @@
       replace:
         path: /etc/rancher/k3s/k3s.yaml
         regexp: "default"
-        replace: "k8s-demo-master"
+        replace: "k3s-demo-master"
