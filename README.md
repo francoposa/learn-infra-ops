@@ -25,7 +25,7 @@ From the project root directory, yamllint uses the `.yamllint.yaml` file for con
 In the `cloud-infra` directory:
 
 ```shell
-% export DO_API_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+% export DO_API_TOKEN=dop_v1_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Create a new DigitalOcean VM
 % ansible-playbook ansible/inventory/mgmt/digitalocean-demo-create.yaml

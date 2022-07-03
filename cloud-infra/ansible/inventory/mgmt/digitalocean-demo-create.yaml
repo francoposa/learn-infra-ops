@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   tasks:
-    - name: create a new droplet in project "demo"
+    - name: create k3s master node droplet in project "demo"
       community.digitalocean.digital_ocean_droplet:
         state: active
         name: debian-s-1vcpu-2gb-sfo3-01
@@ -18,3 +18,16 @@
           - "59:01:94:df:80:a9:97:3e:78:00:85:66:05:06:c7:42"  # id_ed25519_infra_ops
         user_data: "{{ lookup('ansible.builtin.file', '../../../cloud-init.sh') }}"
         oauth_token: "{{ lookup('ansible.builtin.env', 'DO_API_TOKEN') }}"
+      register: k3s_demo_master
+
+    - name: show k3s master node droplet info
+      ansible.builtin.debug:
+        msg: |
+          droplet first public ipv4 address: {{
+            (
+              k3s_demo_master.data.droplet.networks.v4
+              | selectattr('type','eq','public')
+              | map(attribute='ip_address')
+              | first
+            )
+          }}
