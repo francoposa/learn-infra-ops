@@ -1,7 +1,5 @@
 ---
 - hosts: k3s-demo-master
-  vars:
-    ansible_user: infra_ops
   become: yes
   tasks:
     - name: install k3s

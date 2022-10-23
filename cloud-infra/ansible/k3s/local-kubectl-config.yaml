@@ -1,7 +1,6 @@
 ---
 - hosts: k3s-demo-master
   vars:
-    ansible_user: infra_ops
     local_k3s_demo_kube_config_path: ~/.kube/digitalocean-demo-k3s-demo.yaml
   tasks:
     - name: copy master kube config to local
