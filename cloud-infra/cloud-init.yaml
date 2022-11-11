@@ -1,0 +1,42 @@
+#cloud-config
+
+write_files:
+  - path: /etc/rancher/k3s/config.yaml
+    content: |
+      write-kubeconfig: /root/.kube/config
+      write-kubeconfig-mode: "0644"
+      node-name: k3s-demo-master
+      tls-san: "x.x.x.x"
+      node-external-ip: "x.x.x.x"
+
+apt:
+  sources:
+    kubernetes.list:
+      # https://stackoverflow.com/questions/72620609/cloud-init-fetch-apt-key-from-remote-file-instead-of-from-a-key-server
+      # Optionally, just replace key id with plain GPG key from https://packages.cloud.google.com/apt/doc/apt-key.gpg.asc
+      # and use cloud init apt configure sources.key directive https://cloudinit.readthedocs.io/en/latest/topics/modules.html#apt-configure
+      keyid: 59FE0256827269DC81578F928B57C5C2836F4BEB
+      source: deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main
+
+package_update: true
+#package_upgrade: true
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+#  - docker.io
+  - kubectl
+
+# explaining ip address show dev eth0 | grep '\<inet\>' | awk '{ print $2 }' | sed -e 's%/.*%%' | head -1)
+# - ip address show dev (device) eth0 grep '\<inet\>': give me the ip address range info assigned to the VM
+# - awk '{ print $2 }': print the second "thing" (whitespace-delimited) from the stream, which is the CIDR ip range
+# - sed -e 's%/.*%%': match everything after the first slash in the IP range (the subnet mask), replace with nothing
+# - head -1, aka head -n 1: take only the first line in case grep matched multiple lines
+
+runcmd:
+  - sed -i "s/x.x.x.x/$(ip address show dev eth0 | grep '\<inet\>' | awk '{ print $2 }' | sed -e 's%/.*%%' | head -1)/g" /etc/rancher/k3s/config.yaml
+  - curl -sfL https://get.k3s.io | sh -s - --config /etc/rancher/k3s/config.yaml
+  - sed -i "s/127.0.0.1/$(ip address show dev eth0 | grep '\<inet\>' | awk '{ print $2 }' | sed -e 's%/.*%%' | head -1)/g" /root/.kube/config
+  - sed -i 's/default/k3s-demo/g' /root/.kube/config
+  - sysctl fs.inotify.max_user_instances=1024
+
