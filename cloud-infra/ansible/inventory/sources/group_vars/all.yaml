@@ -1,3 +1,0 @@
-all:
-  vars:
-    ansible_user: infra_ops
