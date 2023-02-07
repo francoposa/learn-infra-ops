@@ -2,13 +2,34 @@
 - hosts: k3s-demo-master
   become: yes
   tasks:
-    - name: install k3s
-      shell: |
-        curl -sfL https://get.k3s.io | sh -s - \
-          --write-kubeconfig-mode 644 \
-          --tls-san {{ hostvars[inventory_hostname].ansible_host }}
-    - name: replace kube config 'default' values with descriptive name
-      replace:
-        path: /etc/rancher/k3s/k3s.yaml
+    - name: create k3s config directory if it does not exist
+      ansible.builtin.file:
+        path: /etc/rancher/k3s
+        state: directory
+
+    - name: create k3s config file
+      ansible.builtin.copy:
+        src: ./config.yaml
+        dest: /etc/rancher/k3s/config.yaml
+
+    - name: replace kube config 'default' values with k3s cluster name
+      ansible.builtin.replace:
+        path: /etc/rancher/k3s/config.yaml
         regexp: "default"
         replace: "k3s-demo-master"
+
+    - name: replace kube config 'x.x.x.x' values with host IP address
+      ansible.builtin.replace:
+        path: /etc/rancher/k3s/config.yaml
+        regexp: "x.x.x.x"
+        replace: "{{ hostvars[inventory_hostname].ansible_host }}"
+
+    - name: install k3s
+      ansible.builtin.shell: |
+        curl -sfL https://get.k3s.io | sh -s - --config /etc/rancher/k3s/config.yaml
+
+    - name: replace kube config localhost with master node IP
+      ansible.builtin.replace:
+        path: /home/infra_ops/.kube/config
+        regexp: '127\.0\.0\.1'  # ansible only likes single quotes for this regex
+        replace: "{{ hostvars[inventory_hostname].ansible_host }}"
