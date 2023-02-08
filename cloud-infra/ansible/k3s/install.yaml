@@ -7,6 +7,11 @@
         path: /etc/rancher/k3s
         state: directory
 
+    - name: create kube config directory if it does not exist
+      ansible.builtin.file:
+        path: /home/infra_ops/.kube
+        state: directory
+
     - name: create k3s config file
       ansible.builtin.copy:
         src: ./config.yaml

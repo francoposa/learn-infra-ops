@@ -1,5 +1,5 @@
 ---
-write-kubeconfig: /infra_ops/.kube/config
+write-kubeconfig: /home/infra_ops/.kube/config
 write-kubeconfig-mode: "0644"
 node-name: default
 tls-san: "x.x.x.x"

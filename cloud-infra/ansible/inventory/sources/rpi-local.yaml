@@ -1,0 +1,11 @@
+demo-rpi-local:
+  hosts:
+    rpi-local:
+      ansible_host: 192.168.0.101  # setup with DHCP on my router
+      ansible_user: infra_ops
+k3s-demo-rpi-local:
+  hosts:
+    rpi-local: {}
+k3s-demo-master-rpi-local:
+  hosts:
+    rpi-local: {}
