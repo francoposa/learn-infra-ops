@@ -1,0 +1,17 @@
+#demo:  # host group
+#  hosts:
+#    # host alias or name, the same as the Droplet name in DigitalOcean
+#    debian-s-1vcpu-2gb-sfo3-01:
+#      # key-value pairs nested below the host are host variables
+#      ansible_host: 143.198.67.106
+#      # admin user created on first Droplet startup via user-data script
+#      # use root if you skipped the user setup via cloud-init step
+#      ansible_user: infra_ops
+#k3s-demo:  # another host group
+#  hosts:
+#    # repeat host name with empty map to inherit existing host variables
+#    debian-s-1vcpu-2gb-sfo3-01: {}
+#k3s-demo-master:  # another host group
+#  hosts:
+#    # repeat host name with empty map to inherit existing host variables
+#    debian-s-1vcpu-2gb-sfo3-01: {}
