@@ -27,11 +27,15 @@ In the `cloud-infra` directory:
 ```shell
 % export DO_API_TOKEN=dop_v1_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+# Add the ssh key for the VM to the keychain
+% ssh-add ~/.ssh/id_ed25519_infra_ops  # ssh key for the DO droplet
+
 # Create a new DigitalOcean VM
 % ansible-playbook ansible/inventory/mgmt/digitalocean-demo-create.yaml
 
-# Add the ssh key for the VM to the keychain
-% ssh-add ~/.ssh/id_ed25519_infra_ops  # ssh key for the DO droplet
+# Run a quick demo do verify ssh access
+% ansible-playbook -i ./ansible/inventory/sources/ ansible/inventory/mgmt/digitalocean-demo-sh
+ell-example.yaml
 
 # Install k3s on the single VM
 % ansible-playbook -i ./ansible/inventory/sources/digitalocean.yaml ansible/k3s/install.yaml
