@@ -1,6 +1,15 @@
 ---
+# override k3s default with standard kubeconfig location expected by kubectl
 write-kubeconfig: /home/infra_ops/.kube/config
+# override default 0600 mode on kubeconfig so non-root-users can read
 write-kubeconfig-mode: "0644"
+# node-name must be unique per node if you have multiple hosts in the cluster
+# node-name defaults to the hostname; we override here to always be 'default',
+# so the Ansible playbook can find-and-replace 'default' with the desired name
 node-name: default
+# set placeholder IPs so Ansible playbook can find-and-replace with node's public IP
+# if left unset, these values will also be unset, 0.0.0.0, or 127.0.0.1,
+# which makes it difficult to communicate with the cluster from outside the host
 tls-san: "x.x.x.x"
 node-external-ip: "x.x.x.x"
+bind-address: "x.x.x.x"

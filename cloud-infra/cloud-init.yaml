@@ -18,7 +18,7 @@ apt:
       keyid: 59FE0256827269DC81578F928B57C5C2836F4BEB
       source: deb [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main
 
-package_update: true
+#package_update: true
 #package_upgrade: true
 
 packages:
