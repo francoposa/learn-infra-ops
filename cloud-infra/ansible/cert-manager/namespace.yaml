@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Create a k8s namespace
+    kubernetes.core.k8s:
+      name: cert-manager
+      api_version: v1
+      kind: Namespace
+      state: present

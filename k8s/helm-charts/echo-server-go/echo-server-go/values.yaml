@@ -49,7 +49,7 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt
     cert-manager.io/acme-challenge-type: http01
   hosts:
-    - host: francoposa.co
+    - host: francoposa.dev
       paths:
         - path: /echo
           backend:
@@ -57,9 +57,9 @@ ingress:
               name: echo-server-go
 
   tls:
-    - secretName: francoposa.co-cert
+    - secretName: francoposa.dev-cert-staging
       hosts:
-        - francoposa.co
+        - francoposa.dev
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
