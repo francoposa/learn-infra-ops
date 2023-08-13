@@ -1,5 +1,5 @@
 ---
-- hosts: k3s-demo-master
+- hosts: k3s-master
   tasks:
     - name: cat hostname
       shell: |

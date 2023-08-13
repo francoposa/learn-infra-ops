@@ -10,8 +10,8 @@
         tags:
           - demo
           - k3s-demo
-          - k3s-demo-master
-        image: debian-11-x64
+          - k3s-master
+        image: debian-12-x64
         size: s-1vcpu-2gb
         region: sfo3
         ssh_keys:

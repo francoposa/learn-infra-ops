@@ -11,7 +11,7 @@
 #  hosts:
 #    # repeat host name with empty map to inherit existing host variables
 #    debian-s-1vcpu-2gb-sfo3-01: {}
-#k3s-demo-master:  # another host group
+#k3s-master:  # another host group
 #  hosts:
 #    # repeat host name with empty map to inherit existing host variables
 #    debian-s-1vcpu-2gb-sfo3-01: {}

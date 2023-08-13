@@ -1,5 +1,5 @@
 ---
-- hosts: k3s-demo-master
+- hosts: k3s-master
   become: yes
   tasks:
     - name: create k3s config directory if it does not exist
@@ -21,7 +21,7 @@
       ansible.builtin.replace:
         path: /etc/rancher/k3s/config.yaml
         regexp: "default"
-        replace: "k3s-demo-master"
+        replace: "k3s-master"
 
     - name: replace k3s config 'x.x.x.x' values with host IP address
       ansible.builtin.replace:

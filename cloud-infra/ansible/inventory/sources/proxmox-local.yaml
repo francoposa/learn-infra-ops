@@ -2,7 +2,7 @@
 k3s-master:
   hosts:
     debian-101-1-local:
-      ansible_host: 192.168.0.101  # DHCP reservation
+      ansible_host: 192.168.101.1  # DHCP reservation
       ansible_user: infra_ops
 k3s:
   hosts:

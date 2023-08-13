@@ -1,5 +1,5 @@
 ---
-- hosts: k3s-demo-master
+- hosts: k3s-master
   vars:
     local_k3s_demo_kube_config_path: ~/.kube/digitalocean-demo-k3s-demo.yaml
   tasks:

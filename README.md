@@ -41,7 +41,7 @@ ell-example.yaml
 % ansible-playbook -i ./ansible/inventory/sources/digitalocean.yaml ansible/k3s/install.yaml
 
 # Copy the kubeconfig for the cluster to local; merge with existing kubeconfigs
-% ansible-playbook -i ./ansible/inventory/sources/ ansible/k3s/local-kubectl-config.yaml
+% ansible-playbook -i ./ansible/inventory/sources/ ansible/k3s/local-kube-config.yaml
 
 # verify connectivity to k3s cluster
 % kubectl get nodes
