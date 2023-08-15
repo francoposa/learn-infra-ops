@@ -2,35 +2,37 @@
 
 [[package]]
 name = "ansible"
-version = "5.10.0"
+version = "7.7.0"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "ansible-5.10.0.tar.gz", hash = "sha256:c77f556a7c3d9948f86639c5742aa885be25a7cdbda3bfb41a8314b60a3341e8"},
+    {file = "ansible-7.7.0-py3-none-any.whl", hash = "sha256:4f8d346db1b6cec0f30b77935b3dce5633d76881186da839b58b34b48a089b92"},
+    {file = "ansible-7.7.0.tar.gz", hash = "sha256:9c206ba515f13a0cc9c919d496218ba26df581755bdc39be85b074066c699a02"},
 ]
 
 [package.dependencies]
-ansible-core = ">=2.12.7,<2.13.0"
+ansible-core = ">=2.14.7,<2.15.0"
 
 [[package]]
 name = "ansible-core"
-version = "2.12.10"
+version = "2.14.8"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "ansible-core-2.12.10.tar.gz", hash = "sha256:feb1df61738cfc1f5e893b42a2ec1a7de32977d67e86707b45eb63d0c5c3c236"},
+    {file = "ansible-core-2.14.8.tar.gz", hash = "sha256:637f62c9547023fb4704cd5de1329dc7c02ef9e583cea1c3be2ce6c2fde7739c"},
+    {file = "ansible_core-2.14.8-py3-none-any.whl", hash = "sha256:7830a988112ca148390bfb7db25193f51a95ef6f8b9e0e54e67f65957db8f60d"},
 ]
 
 [package.dependencies]
 cryptography = "*"
-jinja2 = "*"
+jinja2 = ">=3.0.0"
 packaging = "*"
-PyYAML = "*"
-resolvelib = ">=0.5.3,<0.6.0"
+PyYAML = ">=5.1"
+resolvelib = ">=0.5.3,<0.9.0"
 
 [[package]]
 name = "cffi"
@@ -321,20 +323,20 @@ files = [
 
 [[package]]
 name = "resolvelib"
-version = "0.5.4"
+version = "0.8.1"
 description = "Resolve abstract dependencies into concrete ones"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "resolvelib-0.5.4-py2.py3-none-any.whl", hash = "sha256:8113ae3ed6d33c6be0bcbf03ffeb06c0995c099b7b8aaa5ddf2e9b3b3df4e915"},
-    {file = "resolvelib-0.5.4.tar.gz", hash = "sha256:9b9b80d5c60e4c2a8b7fbf0712c3449dc01d74e215632e5199850c9eca687628"},
+    {file = "resolvelib-0.8.1-py2.py3-none-any.whl", hash = "sha256:d9b7907f055c3b3a2cfc56c914ffd940122915826ff5fb5b1de0c99778f4de98"},
+    {file = "resolvelib-0.8.1.tar.gz", hash = "sha256:c6ea56732e9fb6fca1b2acc2ccc68a0b6b8c566d8f3e78e0443310ede61dbd37"},
 ]
 
 [package.extras]
 examples = ["html5lib", "packaging", "pygraphviz", "requests"]
-lint = ["black", "flake8"]
-release = ["setl", "towncrier"]
+lint = ["black", "flake8", "isort", "mypy", "types-requests"]
+release = ["build", "towncrier", "twine"]
 test = ["commentjson", "packaging", "pytest"]
 
 [[package]]
@@ -358,5 +360,5 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.8"
-content-hash = "32f5cd1ab8f36e1c27d5fc6e3620b877f81047e4216f621053fb435a945915cc"
+python-versions = "^3.10"
+content-hash = "af618c99c14ea0b08abe6171142a39d9310f3102c9fe9afe1b39b9553390bbdb"
