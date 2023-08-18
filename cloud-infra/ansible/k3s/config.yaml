@@ -7,8 +7,9 @@ write-kubeconfig-mode: "0644"
 # node-name defaults to the hostname; we override here to always be 'default',
 # so the Ansible playbook can find-and-replace 'default' with the desired name
 node-name: default
-# set placeholder IPs so Ansible playbook can find-and-replace with node's public IP
-# if left unset, these values will also be unset, 0.0.0.0, or 127.0.0.1,
+# set placeholder IPs so Ansible playbook can find-and-replace with node's public IP;
+# depending on the k3s installer's ability to inspect its host's network configuration,
+# these values may also be unset, 0.0.0.0, or 127.0.0.1 if not explicitly configured,
 # which makes it difficult to communicate with the cluster from outside the host
 tls-san: "x.x.x.x"
 node-external-ip: "x.x.x.x"
