@@ -6,7 +6,7 @@ version = "0.1.0a0"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-ansible = "7.*"
+ansible = "9.*"
 
 [tool.poetry.dev-dependencies]
 yamllint = "1.*"
