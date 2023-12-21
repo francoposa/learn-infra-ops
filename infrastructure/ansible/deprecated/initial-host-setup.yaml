@@ -7,9 +7,8 @@
 # For this reason, I have deprecated the use of this script in favor of a bash script
 # to be run before the first server startup.
 # After some research I have found that "init scripts"/"startup scripts"/"user data"
-# scripts are supported across AWS, GCP, and DigitalOcean, potentially via cloud-init
-# (this is what DigitalOcean uses, didn't research the others), which is cross-provider
-# enough for me to just stick with a bash init script solution.
+# scripts are supported across AWS, GCP, and DigitalOcean, via cloud-init,
+# which is cross-provider enough for me to just stick with a bash init script solution.
 
 # References
 
