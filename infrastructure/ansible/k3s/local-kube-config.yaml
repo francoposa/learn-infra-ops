@@ -4,7 +4,7 @@
     local_k3s_demo_kube_config_path: ~/.kube/digitalocean-demo-k3s-demo.yaml
   tasks:
     - name: copy master kube config to local
-      fetch:
+      ansible.builtin.fetch:
         src: /etc/rancher/k3s/k3s.yaml
         dest: "{{ local_k3s_demo_kube_config_path }}"
         flat: true
@@ -13,7 +13,7 @@
         var: hostvars[inventory_hostname].ansible_host
     - name: replace kube config localhost with master ip
       delegate_to: localhost
-      replace:
+      ansible.builtin.replace:
         path: "{{ local_k3s_demo_kube_config_path }}"
         regexp: '127\.0\.0\.1'  # ansible only likes single quotes for this regex
         replace: "{{ hostvars[inventory_hostname].ansible_host }}"
@@ -22,7 +22,7 @@
       # https://stackoverflow.com/questions/46184125/how-to-merge-kubectl-config-file-with-kube-config
       # the KUBECONFIG order of files matters; if there are two clusters or users with
       # the same name, the merge will keep the one from the file listed first
-      shell: |
+      ansible.builtin.shell: |
           KUBECONFIG={{ local_k3s_demo_kube_config_path }}:~/.kube/config \
           kubectl config view --merge --flatten > ~/.kube/config_merged \
           && mv ~/.kube/config_merged ~/.kube/config \

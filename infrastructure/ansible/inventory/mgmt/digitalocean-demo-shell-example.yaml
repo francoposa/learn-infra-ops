@@ -2,7 +2,7 @@
 - hosts: k3s-master
   tasks:
     - name: cat hostname
-      shell: |
+      ansible.builtin.shell: |
         cat /etc/hostname
       register: cat_hostname
 
@@ -10,3 +10,13 @@
       ansible.builtin.debug:
         msg: |
           {{ cat_hostname.stdout_lines }}
+#
+#    - name: ip a
+#      shell: |
+#        ip a
+#      register: ip_a
+#
+#    - name: show ip a output
+#      ansible.builtin.debug:
+#        msg: |
+#          {{ ip_a.stdout_lines }}
