@@ -4,7 +4,7 @@
     - name: create k3s master node droplet in project "demo"
       community.digitalocean.digital_ocean_droplet:
         state: active
-        name: debian-s-1vcpu-2gb-sfo3-01
+        name: debian-s-1vcpu-1gb-sfo3-01
         unique_name: true
         project: demo
         tags:
@@ -12,7 +12,7 @@
           - k3s-demo
           - k3s-master
         image: debian-12-x64
-        size: s-1vcpu-2gb
+        size: s-1vcpu-1gb
         region: sfo3
         ssh_keys:
           - "59:01:94:df:80:a9:97:3e:78:00:85:66:05:06:c7:42"  # id_ed25519_infra_ops

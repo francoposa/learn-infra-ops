@@ -32,13 +32,13 @@ ssh-add ~/.ssh/id_ed25519_infra_ops  # ssh key for the DO droplet
 ansible-playbook ./infrastructure/ansible/inventory/mgmt/digitalocean-demo-create.yaml
 
 # Run a quick demo do verify ssh access
-ansible-playbook -i ./infrastructure/ansible/inventory/sources/ ansible/inventory/mgmt/digitalocean-demo-shell-example.yaml
+ansible-playbook -i ./infrastructure/ansible/inventory/sources/ ./infrastructure/ansible/inventory/mgmt/digitalocean-demo-shell-example.yaml
 
 # Install k3s on the single VM
-ansible-playbook -i ./infrastructure/ansible/inventory/sources/digitalocean.yaml ansible/k3s/install.yaml
+ansible-playbook -i ./infrastructure/ansible/inventory/sources/digitalocean.yaml ./infrastructure/ansible/k3s/install.yaml
 
 # Copy the kubeconfig for the cluster to local; merge with existing kubeconfigs
-ansible-playbook -i ./infrastructure/ansible/inventory/sources/ ansible/k3s/local-kube-config.yaml
+ansible-playbook -i ./infrastructure/ansible/inventory/sources/ ./infrastructure/ansible/k3s/local-kube-config.yaml
 
 # verify connectivity to k3s cluster
 kubectl cluster-info

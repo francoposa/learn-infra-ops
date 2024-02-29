@@ -1,0 +1,64 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: whoami
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami
+  namespace: whoami
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+        - name: whoami
+          image: docker.io/traefik/whoami
+          ports:
+            - name: web
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami
+  namespace: whoami
+spec:
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
+  selector:
+    app: whoami
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: whoami
+#  namespace: whoami
+##  annotations:
+##    cert-manager.io/issuer: "le-example-http"
+#spec:
+##  tls:
+##    - hosts:
+##        - whoami.example.com
+##      secretName: tls-whoami-ingress-http
+#  rules:
+#    - host: francoposa.co
+#      http:
+#        paths:
+#          - path: /
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: whoami
+#                port:
+#                  name: web
