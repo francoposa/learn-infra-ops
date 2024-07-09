@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echo-server
+  namespace: echo-server
+  annotations:
+    cert-manager.io/cluster-issuer: "cluster-issuer-staging"
+spec:
+  tls:
+    - hosts:
+        - backtalk.dev
+      secretName: tls-backtalk-ingress-http-staging
+  rules:
+    - host: backtalk.dev
+      http:
+        paths:
+          - path: /api/v0/
+            pathType: Prefix
+            backend:
+              service:
+                name: echo-server
+                port:
+                  name: web

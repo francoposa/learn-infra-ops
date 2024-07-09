@@ -1,0 +1,77 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami
+  namespace: whoami
+  annotations:
+    cert-manager.io/cluster-issuer: "cluster-issuer-staging"
+spec:
+  tls:
+    - hosts:
+        - backtalk.dev
+      secretName: tls-backtalk-ingress-http-staging
+  rules:
+    - host: backtalk.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: whoami
+                port:
+                  name: web
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: whoami
+#  namespace: whoami
+#  annotations:
+#    cert-manager.io/clusterIssuer: "cluster-issuer-staging"
+#spec:
+#  tls:
+#    - hosts:
+#        - backtalk.dev
+#      secretName: tls-backtalk-ingress-http
+#  rules:
+#    - host: backtalk.dev
+#      http:
+#        paths:
+#          - path: /
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: whoami
+#                port:
+#                  name: web
+#---
+#apiVersion: traefik.io/v1alpha1
+#kind: IngressRoute
+#metadata:
+#  name: whoami
+#  namespace: whoami
+#  annotations:
+#    cert-manager.io/clusterIssuer: "cluster-issuer-staging"
+#spec:
+#  entryPoints:
+#    - web
+#  routes:
+#    - match: Host(`backtalk.dev`) && PathPrefix(`/whoami`)
+#      kind: Rule
+#      services:
+#        - name: whoami
+#          port: web
+#      middlewares:
+#        - name: whoami-stripprefix
+#---
+#apiVersion: traefik.io/v1alpha1
+#kind: Middleware
+#metadata:
+#  name: whoami-stripprefix
+#spec:
+#  stripPrefix:
+#    prefixes:
+#      - /whoami
+#      - /whoami
