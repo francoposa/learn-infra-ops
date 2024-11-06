@@ -44,3 +44,7 @@ ansible-playbook -i ./infrastructure/ansible/inventory/sources/ ./infrastructure
 kubectl cluster-info
 kubectl get nodes
 ```
+
+---
+
+Created by Franco Posa (franco @ [francoposa.io](https://francoposa.io))
