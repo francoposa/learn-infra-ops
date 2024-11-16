@@ -3,10 +3,11 @@ authors = ["francoposa <franco@francoposa.io>"]
 description = ""
 name = "learn-infra-ops"
 version = "0.1.0a0"
+package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.10"
-ansible = "9.*"
+python = "^3.12"
+ansible = "10.*"
 
 [tool.poetry.dev-dependencies]
 yamllint = "1.*"
