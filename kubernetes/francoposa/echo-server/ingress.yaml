@@ -4,18 +4,18 @@ kind: Ingress
 metadata:
   name: echo-server
   namespace: echo-server
-  annotations:
-    cert-manager.io/cluster-issuer: "cluster-issuer-staging"
+#  annotations:
+#    cert-manager.io/cluster-issuer: "cluster-issuer-staging"
 spec:
-  tls:
-    - hosts:
-        - backtalk.dev
-      secretName: tls-backtalk-ingress-http-staging
+#  tls:
+#    - hosts:
+#        - backtalk.dev
+#      secretName: tls-backtalk-ingress-http-staging
   rules:
     - host: backtalk.dev
       http:
         paths:
-          - path: /api/v0/
+          - path: /
             pathType: Prefix
             backend:
               service:

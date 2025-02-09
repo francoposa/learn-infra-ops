@@ -5,17 +5,19 @@ metadata:
   name: whoami
   namespace: whoami
   annotations:
-    cert-manager.io/cluster-issuer: "cluster-issuer-staging"
+#    cert-manager.io/cluster-issuer: "cluster-issuer-staging"
+    cert-manager.io/cluster-issuer: "cluster-issuer"
 spec:
   tls:
     - hosts:
         - backtalk.dev
-      secretName: tls-backtalk-ingress-http-staging
+#      secretName: tls-backtalk-ingress-http-staging
+      secretName: tls-backtalk-ingress-http
   rules:
     - host: backtalk.dev
       http:
         paths:
-          - path: /
+          - path: /whoami
             pathType: Prefix
             backend:
               service:
