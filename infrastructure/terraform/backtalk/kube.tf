@@ -35,10 +35,10 @@ module "kube-hetzner" {
   # ssh_port = 2222
 
   # * Your ssh public key
-  ssh_public_key = file("~/.ssh/id_ed25519.pub")
+  ssh_public_key = file("~/.ssh/id_ed25519_infra_ops.pub")
   # * Your private key must be "ssh_private_key = null" when you want to use ssh-agent for a Yubikey-like device authentication or an SSH key-pair with a passphrase.
   # For more details on SSH see https://github.com/kube-hetzner/kube-hetzner/blob/master/docs/ssh.md
-  ssh_private_key = file("~/.ssh/id_ed25519")
+  ssh_private_key = file("~/.ssh/id_ed25519_infra_ops")
   # You can add additional SSH public Keys to grant other team members root access to your cluster nodes.
   # ssh_additional_public_keys = []
 
@@ -121,12 +121,12 @@ module "kube-hetzner" {
 
   control_plane_nodepools = [
     {
-      name        = "control-plane-fsn1",
+      name        = "control-plane-ash",
       server_type = "cx22",
-      location    = "fsn1",
+      location    = "hel1",
       labels      = [],
       taints      = [],
-      count       = 1
+      count       = 3
       # swap_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # zram_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # kubelet_args = ["kube-reserved=cpu=250m,memory=1500Mi,ephemeral-storage=1Gi", "system-reserved=cpu=250m,memory=300Mi"]
@@ -137,44 +137,44 @@ module "kube-hetzner" {
       # Enable automatic backups via Hetzner (default: false)
       # backups = true
     },
-    {
-      name        = "control-plane-nbg1",
-      server_type = "cx22",
-      location    = "nbg1",
-      labels      = [],
-      taints      = [],
-      count       = 1
-
-      # Fine-grained control over placement groups (nodes in the same group are spread over different physical servers, 10 nodes per placement group max):
-      # placement_group = "default"
-
-      # Enable automatic backups via Hetzner (default: false)
-      # backups = true
-    },
-    {
-      name        = "control-plane-hel1",
-      server_type = "cx22",
-      location    = "hel1",
-      labels      = [],
-      taints      = [],
-      count       = 1
-
-      # Fine-grained control over placement groups (nodes in the same group are spread over different physical servers, 10 nodes per placement group max):
-      # placement_group = "default"
-
-      # Enable automatic backups via Hetzner (default: false)
-      # backups = true
-    }
+    # {
+    #   name        = "control-plane-nbg1",
+    #   server_type = "cx22",
+    #   location    = "nbg1",
+    #   labels      = [],
+    #   taints      = [],
+    #   count       = 1
+    #
+    #   # Fine-grained control over placement groups (nodes in the same group are spread over different physical servers, 10 nodes per placement group max):
+    #   # placement_group = "default"
+    #
+    #   # Enable automatic backups via Hetzner (default: false)
+    #   # backups = true
+    # },
+    # {
+    #   name        = "control-plane-hel1",
+    #   server_type = "cx22",
+    #   location    = "hel1",
+    #   labels      = [],
+    #   taints      = [],
+    #   count       = 1
+    #
+    #   # Fine-grained control over placement groups (nodes in the same group are spread over different physical servers, 10 nodes per placement group max):
+    #   # placement_group = "default"
+    #
+    #   # Enable automatic backups via Hetzner (default: false)
+    #   # backups = true
+    # }
   ]
 
   agent_nodepools = [
     {
       name        = "agent-small",
       server_type = "cx22",
-      location    = "fsn1",
+      location    = "hel1",
       labels      = [],
       taints      = [],
-      count       = 1
+      count       = 0
       # swap_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # zram_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # kubelet_args = ["kube-reserved=cpu=50m,memory=300Mi,ephemeral-storage=1Gi", "system-reserved=cpu=250m,memory=300Mi"]
@@ -188,10 +188,10 @@ module "kube-hetzner" {
     {
       name        = "agent-large",
       server_type = "cx32",
-      location    = "nbg1",
+      location    = "hel1",
       labels      = [],
       taints      = [],
-      count       = 1
+      count       = 0
 
       # Fine-grained control over placement groups (nodes in the same group are spread over different physical servers, 10 nodes per placement group max):
       # placement_group = "default"
@@ -202,13 +202,13 @@ module "kube-hetzner" {
     {
       name        = "storage",
       server_type = "cx32",
-      location    = "fsn1",
+      location    = "hel1",
       # Fully optional, just a demo.
       labels      = [
         "node.kubernetes.io/server-usage=storage"
       ],
       taints      = [],
-      count       = 1
+      count       = 0
 
       # In the case of using Longhorn, you can use Hetzner volumes instead of using the node's own storage by specifying a value from 10 to 10240 (in GB)
       # It will create one volume per node in the nodepool, and configure Longhorn to use them.
@@ -225,7 +225,7 @@ module "kube-hetzner" {
     {
       name        = "egress",
       server_type = "cx22",
-      location    = "fsn1",
+      location    = "hel1",
       labels = [
         "node.kubernetes.io/role=egress"
       ],
@@ -236,40 +236,40 @@ module "kube-hetzner" {
       # Optionally associate a reverse DNS entry with the floating IP(s).
       # This is useful in combination with the Egress Gateway feature for hosting certain services in the cluster, such as email servers.
       # floating_ip_rns = "my.domain.com"
-      count = 1
+      count = 0
     },
     # Arm based nodes
     {
       name        = "agent-arm-small",
       server_type = "cax11",
-      location    = "fsn1",
+      location    = "hel1",
       labels      = [],
       taints      = [],
-      count       = 1
+      count       = 0
     },
     # For fine-grained control over the nodes in a node pool, replace the count variable with a nodes map.
     # In this case, the node-pool variables are defaults which can be overridden on a per-node basis.
     # Each key in the nodes map refers to a single node and must be an integer string ("1", "123", ...).
-    {
-      name        = "agent-arm-small",
-      server_type = "cax11",
-      location    = "fsn1",
-      labels      = [],
-      taints      = [],
-      nodes = {
-        "1" : {
-          location                  = "nbg1"
-          labels = [
-            "testing-labels=a1",
-          ]
-        },
-        "20" : {
-          labels = [
-            "testing-labels=b1",
-          ]
-        }
-      }
-    },
+    # {
+    #   name        = "agent-arm-small",
+    #   server_type = "cax11",
+    #   location    = "fsn1",
+    #   labels      = [],
+    #   taints      = [],
+    #   nodes = {
+    #     "1" : {
+    #       location                  = "nbg1"
+    #       labels = [
+    #         "testing-labels=a1",
+    #       ]
+    #     },
+    #     "20" : {
+    #       labels = [
+    #         "testing-labels=b1",
+    #       ]
+    #     }
+    #   }
+    # },
   ]
   # Add custom control plane configuration options here.
   # E.g to enable monitoring for etcd, proxy etc:
@@ -289,7 +289,7 @@ module "kube-hetzner" {
 
   # * LB location and type, the latter will depend on how much load you want it to handle, see https://www.hetzner.com/cloud/load-balancer
   load_balancer_type     = "lb11"
-  load_balancer_location = "fsn1"
+  load_balancer_location = "hel1"
 
   # Disable IPv6 for the load balancer, the default is false.
   # load_balancer_disable_ipv6 = true
@@ -560,13 +560,13 @@ module "kube-hetzner" {
   #   Even if patched to remove the "default" label, the local-path storage class will be reset as default on each reboot of
   #   the node where the controller runs.
   #   This is not a problem if you explicitly define which storageclass to use in your PVCs.
-  #   Workaround if you don't want two default storage classes: leave this to false and add the local-path-provisioner helm chart 
+  #   Workaround if you don't want two default storage classes: leave this to false and add the local-path-provisioner helm chart
   #   as an extra (https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner#adding-extras).
   # enable_local_storage = false
 
   # If you want to allow non-control-plane workloads to run on the control-plane nodes, set this to "true". The default is "false".
   # True by default for single node clusters, and when enable_klipper_metal_lb is true. In those cases, the value below will be ignored.
-  # allow_scheduling_on_control_plane = true
+  allow_scheduling_on_control_plane = true
 
   # If you want to disable the automatic upgrade of k3s, you can set below to "false".
   # Ideally, keep it on, to always have the latest Kubernetes version, but lock the initial_k3s_channel to a kube major version,
@@ -611,7 +611,7 @@ module "kube-hetzner" {
   # Allows you to specify the k3s version. If defined, supersedes initial_k3s_channel.
   # See https://github.com/k3s-io/k3s/releases for the available versions.
   # install_k3s_version = "v1.30.2+k3s2"
-  
+
   # Allows you to specify either stable, latest, testing or supported minor versions.
   # see https://rancher.com/docs/k3s/latest/en/upgrades/basic/ and https://update.k3s.io/v1-release/channels
   # ⚠️ If you are going to use Rancher addons for instance, it's always a good idea to fix the kube version to one minor version below the latest stable,
@@ -659,8 +659,8 @@ module "kube-hetzner" {
   #   "trust anchor --store /root/ca.crt",
   # ]
 
-  # Structured authentication configuration. Multiple authentication providers support requires v1.30+ of 
-  # kubernetes.  
+  # Structured authentication configuration. Multiple authentication providers support requires v1.30+ of
+  # kubernetes.
   # https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration
   #
   # authentication_config = <<-EOT
@@ -861,7 +861,7 @@ module "kube-hetzner" {
   # For inter-namespace communication, use `.service_name` as per Kubernetes norms.
   #
   # Example:
-  # lb_hostname = "mycluster.domain.com"
+  lb_hostname = "backtalk.dev"
 
   # You can enable Rancher (installed by Helm behind the scenes) with the following flag, the default is "false".
   # ⚠️ Rancher often doesn't support the latest Kubernetes version. You will need to set initial_k3s_channel to a supported version.
@@ -917,7 +917,7 @@ module "kube-hetzner" {
   # Export the values.yaml files used for the deployment of traefik, longhorn, cert-manager, etc.
   # This can be helpful to use them for later deployments like with ArgoCD.
   # The default is false.
-  # export_values = true
+  export_values = true
 
   # MicroOS snapshot IDs to be used. Per default empty, the most recent image created using createkh will be used.
   # We recommend the default, but if you want to use specific IDs you can.
@@ -1135,6 +1135,7 @@ bootstrapPassword: "supermario"
 }
 
 provider "hcloud" {
+
   token = var.hcloud_token != "" ? var.hcloud_token : local.hcloud_token
 }
 
