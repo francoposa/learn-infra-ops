@@ -30,5 +30,11 @@ resource "hcloud_server" "aptlink_one_node_0" {
     ipv4         = data.hcloud_primary_ip.aptlink_one_ip_primary_0.id
     ipv6_enabled = true
   }
+
+  ssh_keys = [
+    "id_ed25519_infraops"
+  ]
+
+  user_data = file("./cloud-init-debian-container-tools.yaml")
 }
 

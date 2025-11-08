@@ -75,7 +75,7 @@ apt:
         =0YYh
         -----END PGP PUBLIC KEY BLOCK-----
 
-k8s.list:
+    k8s.list:
       source: deb https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -117,6 +117,7 @@ packages:
   - containerd.io
   - docker-buildx-plugin
   - docker-compose-plugin
+  - kubectl
 package_update: true
 package_upgrade: true
 
